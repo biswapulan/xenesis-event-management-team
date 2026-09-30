@@ -145,6 +145,11 @@ body[data-screen=landing] header{visibility:hidden;padding:10px}
 }
 @media (max-width:520px){.marks{gap:6px}.brand small{display:none}.hint{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.leaf{display:none}.shoji{display:none}}
+/* ---------- SCROLL FIX ---------- */
+html,body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.app{height:auto;min-height:100vh;min-height:100dvh;overflow:visible}
+main{overflow:visible;padding-bottom:16px}
+.card{max-height:none}
 </style>
 </head>
 <body data-screen="landing">
@@ -221,7 +226,7 @@ const marks=$("#marks");marks.innerHTML="<i></i>".repeat(8);
 function paintMarks(n){[...marks.children].forEach((m,i)=>{m.className=(i<n?"on":"")+(i===n-1?" cur":"")});marks.setAttribute("aria-valuenow",n)}
 
 function go(fn,screen,n){
- const swap=()=>{fn();document.body.dataset.screen=screen;paintMarks(n);const f=stage.querySelector("[autofocus],input:not([type=radio]):not([type=checkbox]),textarea,.opts input:checked,.opts input,h1,h2,.btn");if(f){if(!f.matches("input,textarea,button,a"))f.tabIndex=-1;f.focus({preventScroll:true})}};
+ const swap=()=>{fn();window.scrollTo(0,0);document.body.dataset.screen=screen;paintMarks(n);const f=stage.querySelector("[autofocus],input:not([type=radio]):not([type=checkbox]),textarea,.opts input:checked,.opts input,h1,h2,.btn");if(f){if(!f.matches("input,textarea,button,a"))f.tabIndex=-1;f.focus({preventScroll:true})}};
  if(reduce){swap();return}
  shoji.classList.add("shut");setTimeout(()=>{swap();requestAnimationFrame(()=>shoji.classList.remove("shut"))},440);
 }
